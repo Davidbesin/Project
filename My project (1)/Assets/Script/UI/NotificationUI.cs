@@ -1,45 +1,48 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class NotificationUI : MonoBehaviour
 {
     public static NotificationUI Instance;
 
-    [Header("UI Reference")]
     public TextMeshProUGUI text;
-
-    [Header("Settings")]
     public float displayTime = 2f;
+
+    Queue<string> queue = new Queue<string>();
+    bool isShowing;
 
     void Awake()
     {
-        // Singleton setup
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         Instance = this;
-
-        if (text != null)
-            text.gameObject.SetActive(false);
+        text.gameObject.SetActive(false);
     }
 
     public void Show(string message)
     {
-        StopAllCoroutines();
-        StartCoroutine(ShowRoutine(message));
+        queue.Enqueue(message);
+
+        if (!isShowing)
+            StartCoroutine(ProcessQueue());
     }
 
-    IEnumerator ShowRoutine(string message)
+    IEnumerator ProcessQueue()
     {
-        text.text = message;
-        text.gameObject.SetActive(true);
+        isShowing = true;
 
-        yield return new WaitForSeconds(displayTime);
+        while (queue.Count > 0)
+        {
+            string msg = queue.Dequeue();
 
-        text.gameObject.SetActive(false);
+            text.text = msg;
+            text.gameObject.SetActive(true);
+
+            yield return new WaitForSeconds(displayTime);
+
+            text.gameObject.SetActive(false);
+        }
+
+        isShowing = false;
     }
 }

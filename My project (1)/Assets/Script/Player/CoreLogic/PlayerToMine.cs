@@ -12,7 +12,6 @@ public class PlayerToMine : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("TriggerWorks");
         Mine currentMine = other.GetComponent<Mine>();
         if (currentMine != null)
         {
@@ -42,7 +41,6 @@ public class PlayerToMine : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(resourceGatheringTime);
-            Debug.Log("Colect");
             int collectedAmount = mine.Collect(whatToCollect); 
 
             if (collectedAmount > 0)
