@@ -92,8 +92,8 @@ public class SummoningDecision : MonoBehaviour
         if (Summoning)
         {
             rb.position = SummonManager.Instance.platform.position + offset;
-
-            SetState(red: debris, green: !debris);
+            rb.rotation = SummonManager.Instance.platform.rotation;
+             SetState(red: debris, green: !debris);
         }
         else
         {
@@ -123,4 +123,6 @@ public class SummoningDecision : MonoBehaviour
         if (turrents.green.activeSelf != green) turrents.green.SetActive(green);
         if (turrents.normal.activeSelf != normal) turrents.normal.SetActive(normal);
     }
+
+    
 }
