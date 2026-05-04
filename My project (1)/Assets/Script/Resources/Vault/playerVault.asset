@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 343e9b8f944eca0449cf269c639d1f7a, type: 3}
+  m_Name: playerVault
+  m_EditorClassIdentifier: Assembly-CSharp::PlayersInventory
+  playersResources:
+  - {fileID: 11400000, guid: 03939df45903e224fb891d83f3c37734, type: 2}
+  - {fileID: 11400000, guid: e06f098d25cc2ed499a0c9fe71b10796, type: 2}
+  - {fileID: 11400000, guid: ec77394527685404dacf1968b69628aa, type: 2}
+  - {fileID: 11400000, guid: 9b5207a0e96d362439fd0e153c377918, type: 2}
+  canAddResources: 1
