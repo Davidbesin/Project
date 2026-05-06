@@ -25,7 +25,7 @@ public class PlayersInventory : ScriptableObject
                 res.Add(p);
             }
         }
-        if (res.Count == 0) Debug.Log("Nothing works dawg");
+       // if (res.Count == 0) Debug.Log("Nothing works dawg");
         return res;
     }
 

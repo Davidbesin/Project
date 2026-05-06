@@ -3,27 +3,40 @@ using System.Collections.Generic;
 
 public class TowerManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public static TowerManager Instance {get; private set;}
+    public static TowerManager Instance { get; private set; }
     public List<BaseDefensiveTower> MyTowers = new();
+
+    public int TotalWaveStrength { get; private set; }
+
     void Awake()
     {
         Instance = this;
     }
 
-    // Update is called once per frame
-    public void JoinList(BaseDefensiveTower baseDefensiveTower)
+    public void JoinList(BaseDefensiveTower tower)
     {
-        MyTowers.Add(baseDefensiveTower);
+        MyTowers.Add(tower);
+        RecalculateWaveStrength();
     }
-    public void GetOutOfList(BaseDefensiveTower baseDefensiveTower)
+
+    public void GetOutOfList(BaseDefensiveTower tower)
     {
-        MyTowers.Remove(baseDefensiveTower);
+        MyTowers.Remove(tower);
+        RecalculateWaveStrength();
+    }
+
+    public void RecalculateWaveStrength()
+    {
+        TotalWaveStrength = 0;
+        foreach (var tower in MyTowers)
+        {
+            TotalWaveStrength += tower.ContributeToWave();
+        }
     }
 
     public void ChangeRange(float rang)
     {
-        foreach(var tower in MyTowers)
+        foreach (var tower in MyTowers)
         {
             tower.SetRange(rang);
         }

@@ -1591,6 +1591,9 @@ GameObject:
   - component: {fileID: 8067191700615134805}
   - component: {fileID: 7435248667383463326}
   - component: {fileID: 7774797374402247023}
+  - component: {fileID: -3042680311340548147}
+  - component: {fileID: 123552912857994835}
+  - component: {fileID: 3058432610396812854}
   m_Layer: 0
   m_Name: TurrentBundle
   m_TagString: Untagged
@@ -1688,7 +1691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   placed: 0
-  checkRadius: 4.5
+  checkRadius: 1
   offset: {x: 0, y: 1.99, z: 0}
   eventRed:
     m_PersistentCalls:
@@ -1770,6 +1773,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-3042680311340548147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718270341939770139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bafc6d6a8e75e740a54c14e8492ddb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PrefabID
+  planetPrefabID: BundleTurrentAttack
+--- !u!114 &123552912857994835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718270341939770139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a6429612cba3f942b13a3ef41bea01f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeableStatInterface
+  nameOfStats: 
+  level: 1
+  OnUpgradeStats:
+    m_PersistentCalls:
+      m_Calls: []
+  playerBag: {fileID: 11400000, guid: ce1b77e7f7b2a924a9496e1a0155497d, type: 2}
+  playerVault: {fileID: 11400000, guid: 1467814b0e197da40a41b22506aa85cc, type: 2}
+  toSpend: []
+  uiClickTrigger: {fileID: 0}
+--- !u!114 &3058432610396812854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718270341939770139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea1ebee2ea5215489ff5d6e6c318705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UiTriggerBinder
+  uiTag: UpgradeButton
+  statInterface: {fileID: 123552912857994835}
 --- !u!1 &3902665130086246202
 GameObject:
   m_ObjectHideFlags: 0
@@ -3335,6 +3386,10 @@ PrefabInstance:
     - target: {fileID: 4317874184272834, guid: bccc7a794e75b2a44a4b0dac69160b7b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198421077076039884, guid: bccc7a794e75b2a44a4b0dac69160b7b, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 63
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

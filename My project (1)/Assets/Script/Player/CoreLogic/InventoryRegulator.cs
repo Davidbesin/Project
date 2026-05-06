@@ -25,7 +25,7 @@ public class InventoryRegulator : MonoBehaviour
 
             // Gate logic: flip boolean when sum exceeds threshold
             playerBag.canAddResources = sum < maxAllowedSum;
-
+         //    if(!playerBag.canAddResources) Debug.Log("BagPack Full");
             // Wait ~0.33 seconds (3 times per second)
             yield return new WaitForSeconds(0.33f);
         }

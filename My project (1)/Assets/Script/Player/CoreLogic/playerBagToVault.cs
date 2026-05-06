@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 public class PlayerBagToVault : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class PlayerBagToVault : MonoBehaviour
     [Header("Drain Settings")] 
     [SerializeField] private float drainIntervalSeconds = 0.5f;
     [SerializeField] private int drainAmountPerStep = 5;
+    public UnityEvent drainingResources;
+
+
 
     private Coroutine drainCoroutine;
 
@@ -38,6 +42,7 @@ public class PlayerBagToVault : MonoBehaviour
         {
             Debug.Log("Player entered vault zone, starting drain...");
             drainCoroutine = StartCoroutine(DrainResourcesSlowly());
+            drainingResources.Invoke();
         }
     }
 
@@ -50,6 +55,7 @@ public class PlayerBagToVault : MonoBehaviour
             {
                 StopCoroutine(drainCoroutine);
                 drainCoroutine = null;
+                drainingResources.Invoke();
             }
         }
     }

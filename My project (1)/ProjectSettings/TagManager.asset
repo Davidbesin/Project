@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - CinemachineTarget
+  - SafeSpace
+  - UpgradeButton
   layers:
   - Default
   - TransparentFX
@@ -13,8 +15,8 @@ TagManager:
   - Water
   - UI
   - Wall
-  - 
-  - 
+  - SafeSpace
+  - IngameUI
   - 
   - 
   - 

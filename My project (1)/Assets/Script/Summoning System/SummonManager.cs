@@ -9,7 +9,9 @@ public class SummonManager : MonoBehaviour
     public static SummonManager Instance;
     public bool summoning;
     public Transform platform;
-    [SerializeField] bool canEndSummoning;    
+    [SerializeField] bool canEndSummoning; 
+    [SerializeField] bool nextAllowed = true;
+    public bool NextAllowed => nextAllowed;   
     
     public UnityEvent SummonEvents;
     public UnityEvent UnSummonEvents;
@@ -43,5 +45,10 @@ public class SummonManager : MonoBehaviour
    public void CannotEndSummoning()
    {
         canEndSummoning = false;
+   }
+
+   public void AllowedStatus(bool boole)
+   {
+        nextAllowed = boole;
    }
 }

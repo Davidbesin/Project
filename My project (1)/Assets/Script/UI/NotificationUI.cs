@@ -45,4 +45,11 @@ public class NotificationUI : MonoBehaviour
 
         isShowing = false;
     }
+
+    bool draining;
+    public void ResourceDrainChange()
+    {
+        if (!draining){draining = true; displayTime = 0.1f;}
+        else {draining = false; displayTime = 0.75f;}
+    }
 }

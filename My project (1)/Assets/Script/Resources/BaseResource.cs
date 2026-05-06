@@ -24,6 +24,6 @@ public class BaseResource : ScriptableObject
         Amount -= subtraction;
         if (Amount < 0) Amount = 0;
 
-        Debug.Log($"Subtracted {subtraction}, new amount = {amount}");
+       // Debug.Log($"Subtracted {subtraction}, new amount = {amount}");
     }
 }

@@ -5,27 +5,23 @@ public abstract class BaseDefensiveTower : MonoBehaviour, IWaveContributor, IHea
 {
     public List<BaseEnemyAI> enemyWithinRange = new();
 
-    [Header("BAsic Tower Stats")]
+    [Header("Basic Tower Stats")]
     [SerializeField] protected int towerLevel = 1;
     [SerializeField] protected int baseHealth = 100;
     [SerializeField] protected int regenRateHealth;
-    [SerializeField]protected int health;
+    [SerializeField] protected int health;
     protected float range;
     public bool PlayerSide => true;
     private SphereCollider trigger;
-   // private Planet planet;
 
     public int Health 
     { 
         get => health; 
-        set 
-        {
-            health = Mathf.Clamp(value, 0, MaxHealth);
-        } 
+        set => health = Mathf.Clamp(value, 0, MaxHealth); 
     }
 
     public float Range => range;
-    public int MaxHealth ;
+    public int MaxHealth;
 
     public int TowerLevel
     {
@@ -34,9 +30,9 @@ public abstract class BaseDefensiveTower : MonoBehaviour, IWaveContributor, IHea
         {
             towerLevel = Mathf.Max(1, value);
             UpdateStats();
+            TowerManager.Instance.RecalculateWaveStrength(); // update manager when level changes
         }
     }
-
 
     private void Awake() 
     {
@@ -52,30 +48,30 @@ public abstract class BaseDefensiveTower : MonoBehaviour, IWaveContributor, IHea
 
     private void UpdateStats()
     {
+        MaxHealth = baseHealth; // you can expand this with upgrades later
         health = MaxHealth;
-
     }
 
     private void Update()
     {
-        health += regenRateHealth;
+        health = Mathf.Min(MaxHealth, health + regenRateHealth);
     }
+
     public virtual void OnEnable()
     {
         UpdateStats();
-      //  planet = Player.Instance.ResidingPlanet;
-       // planet.JoinList(this);
-        TowerManager.Instance.JoinList(this);
+        TowerManager.Instance.JoinList(this); // register with manager
     }
 
     public virtual void OnDisable()
     {
-       // planet = Player.Instance.ResidingPlanet;
-        //planet.GetOutOftheList(this);
-        TowerManager.Instance.GetOutOfList(this);
+        TowerManager.Instance.GetOutOfList(this); // unregister from manager
     }
 
+    // IWaveContributor implementation
     public int ContributeToWave() => towerLevel;
+
+    // IHealth implementation
     public void TakeDamage(int damage) => Health -= damage;
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -106,33 +102,10 @@ public abstract class BaseDefensiveTower : MonoBehaviour, IWaveContributor, IHea
 
     protected abstract void DealWithEnemies();
 
-
-
- /*   // --- Methods to affect stats (Mine-style) ---
-      [SerializeField] UpgradeableStatInterface upgradeablehealth;
-    public void ApplyStatsToMaxHealth(int health)
-    {
-        MaxHealth = baseHealth * upgradeablehealth.level;
-    }
-
-    int regenRateHealth;
-    [SerializeField]int baseRegenRateHealth;
-    [SerializeField] UpgradeableStatInterface upgradeableRegenhealth;
-    public void ApplyStatsToRegenHealth()
-    {
-       regenRateHealth = baseRegenRateHealth * upgradeableRegenhealth.level;
-    }
-
-    [SerializeField]float baseRange;
-    [SerializeField] UpgradeableStatInterface upgradeableRange;
-    public void ApplyStatsToRange()
-    {
-        range = baseRange * upgradeableRange.level;
-    } */
-
     public void ApplyStatsToTowerLevel(int level)
     {
         this.towerLevel = Mathf.Max(1, level);
         UpdateStats();
+        TowerManager.Instance.RecalculateWaveStrength(); // keep manager updated
     }
 }

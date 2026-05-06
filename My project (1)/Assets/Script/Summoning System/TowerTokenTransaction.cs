@@ -5,27 +5,28 @@ using System;
 public class TowerTokenTransaction : MonoBehaviour, ITransact
 {
     public List<TransactionItem> spendRequirements = new();
-    public List<TowerToken> towerTokenList = new();
+    public static List<TowerToken> towerTokenList = new();
+    [SerializeField]int tokenCount;
     public bool HasBought { get; private set; }
     public bool AutoTransact => false;
 
-    public bool AllowBuy{get; private set;}
+    public bool AllowBuy { get; private set; }
 
-    
     public Action toAllowBuy => AllowBuyToggleOn;
     public Action toNotAllowBuy => AllowBuyToggleOff;
-    
+
     [Tooltip("Player inventory reference.")]
     public PlayersInventory playerBag;
 
     [Tooltip("Player second bigger inventory reference.")]
     public PlayersInventory playerVault;
 
+
     public void BuyTowerToken()
     {
         if (!AllowBuy) return;
         if (DoYourTransaction())
-        towerTokenList.Add(new TowerToken());
+            towerTokenList.Add(new TowerToken());
     }
 
     public bool DoYourTransaction()
@@ -34,7 +35,7 @@ public class TowerTokenTransaction : MonoBehaviour, ITransact
         {
             if (!playerBag.SubtractResources(transact.resource.GetType(), transact.amount))
             {
-                 if (!playerVault.SubtractResources(transact.resource.GetType(), transact.amount)) return false;
+                if (!playerVault.SubtractResources(transact.resource.GetType(), transact.amount)) return false;
             }
         }
 
@@ -45,23 +46,38 @@ public class TowerTokenTransaction : MonoBehaviour, ITransact
 
     private void OnTriggerEnter(Collider other)
     {
-        TokenShop tokenShop = other.GetComponent<TokenShop>();
-        if (tokenShop == null) return;
-        
+       Player player = other.GetComponent<Player>();
+        if (player == null) return;
+        Debug.Log("Entering Token Shop");
     }
 
     private void OnTriggerExit(Collider other)
     {
-        TokenShop tokenShop = other.GetComponent<TokenShop>();
-        if (tokenShop == null) return;
+        Player player = other.GetComponent<Player>();
+        if (player == null) return;
+        Debug.Log("Exiting Token Shop");
     }
 
-    public void AllowBuyToggleOn()
+    public void AllowBuyToggleOn() => AllowBuy = true;
+    public void AllowBuyToggleOff() => AllowBuy = false;
+
+    //  Bool method to remove a token
+    public bool RemoveTowerToken(TowerToken token)
     {
-        AllowBuy = true;
+        if (towerTokenList.Contains(token))
+        {
+            towerTokenList.Remove(token);
+            Debug.Log("TowerToken removed successfully.");
+            return true;
+        }
+        Debug.LogWarning("Attempted to remove a TowerToken that wasn't in the list.");
+        return false;
     }
-    public void AllowBuyToggleOff()
+
+    // Debug in Update showing how many tokens exist
+    private void Update()
     {
-        AllowBuy = false;
+        //Debug.Log($"TowerToken count: {towerTokenList.Count}");
+        tokenCount = towerTokenList.Count;
     }
 }

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7659204609386499293}
   - component: {fileID: 529333937718274375}
   - component: {fileID: 2063418930941153544}
+  - component: {fileID: 1548918672540204150}
   m_Layer: 0
   m_Name: Gem Mine
   m_TagString: Untagged
@@ -137,8 +138,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e59d6e0504fd6f469d8343e6dbde291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MineLevelIncrease
-  personalMine: {fileID: 0}
-  level: 0
   playerBag: {fileID: 0}
   playerVault: {fileID: 0}
   toSpend: []
@@ -155,6 +154,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MineLook
   personalMine: {fileID: 0}
+--- !u!114 &1548918672540204150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3692360055701881390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bafc6d6a8e75e740a54c14e8492ddb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PrefabID
+  planetPrefabID: GemMine
 --- !u!1 &4423319809880220315
 GameObject:
   m_ObjectHideFlags: 0

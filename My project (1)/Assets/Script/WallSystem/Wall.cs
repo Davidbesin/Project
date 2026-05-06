@@ -45,7 +45,7 @@ public class Wall : MonoBehaviour, IHealth
 
     public void TakeDamage(int damage)
     {
-        Debug.Log("Ims supposed to be dying slowly");
+        
         Health -= damage;
         if (Health <= 0)
         {

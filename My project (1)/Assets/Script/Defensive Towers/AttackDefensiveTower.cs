@@ -17,7 +17,7 @@ public class AttackDefensiveTower : BaseDefensiveTower
     public BaseEnemyAI designatedTarget;
 
     [SerializeField] ParticleSystem attackEffect;  // Particle system reference
-
+    void Start() => attackEffect.Stop();
     void OnTriggerEnter(Collider other)
     {
         BaseEnemyAI enemy = other.GetComponent<BaseEnemyAI>();

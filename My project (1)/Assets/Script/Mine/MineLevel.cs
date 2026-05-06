@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class MineLevel : MonoBehaviour, ILevel
 {
-    [SerializeField] private int level = 1;
+    
+    [SerializeField] UpgradeableStatInterface statlevel;
+    public int level => statlevel.level;
     private Mine personalMine;
 
     public int Level => level;
@@ -15,20 +17,20 @@ public class MineLevel : MonoBehaviour, ILevel
 
     public void ApplyAllUpgrades()
     {
-        personalMine.UpgradeHealth(level);
+       // personalMine.UpgradeHealth(level);
         personalMine.UpgradeRegenRate(level);
-        personalMine.UpgradeMineCapacity(level);
-        personalMine.UpgradeRegenHealth(level);
+        personalMine.UpgradeMineCapacity(statlevel.level);
+       // personalMine.UpgradeRegenHealth(statlevel.level);
     }
 
     public void IncreaseLevel()
     {
-        level++;
+        statlevel.level++;
         ApplyAllUpgrades();
     }
 
      public void ResetLevel()
     {
-        level = 0;
+        statlevel.level = 0;
     }
 }

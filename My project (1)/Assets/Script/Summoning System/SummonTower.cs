@@ -6,8 +6,13 @@ public class SummonTower : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void SummonAttackTower()
     {
-       // if (SummonManager.Instance.summoning) return; 
-        Instantiate(tower);
+        if (!SummonManager.Instance.NextAllowed) return;
+        if (TowerTokenTransaction.towerTokenList.Count > 0)
+        {
+            TowerTokenTransaction.towerTokenList.RemoveAt(0); 
+            Instantiate(tower, TowerManager.Instance.transform);
+            SummonManager.Instance.AllowedStatus(false);
+        }     
     }
 
 }
