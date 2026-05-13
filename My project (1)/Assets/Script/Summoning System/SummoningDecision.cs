@@ -14,8 +14,8 @@ public class SummoningDecision : MonoBehaviour
     [SerializeField] float checkRadius = 1.5f;
     [SerializeField] Vector3 offset;
 
-    public UnityEvent eventRed;
-    public UnityEvent eventGreen;
+    public UnityEvent eventRed = new UnityEvent();
+public UnityEvent eventGreen = new UnityEvent();    
 
     bool debris;
     bool lastDebrisState;
@@ -82,7 +82,8 @@ public class SummoningDecision : MonoBehaviour
                other.TryGetComponent<Player>(out _) ||
                other.TryGetComponent<Axe>(out _)||
                other.TryGetComponent<Wall>(out _)||
-               other.TryGetComponent<BaseEnemyAI>(out _);
+               other.TryGetComponent<BaseEnemyAI>(out _)||
+               other.TryGetComponent<SafeSpace>(out _);
     }
 
     void SummonMethod()

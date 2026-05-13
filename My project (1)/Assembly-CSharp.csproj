@@ -67,9 +67,11 @@
     <Compile Include="Assets\Script\Resources\WoodResource.cs" />
     <Compile Include="Assets\Script\WallSystem\GridManager.cs" />
     <Compile Include="Assets\Script\Summoning System\TokenShop.cs" />
+    <Compile Include="Assets\Script\SaveSystem\InventorySaveData.cs" />
     <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualJoystick.cs" />
     <Compile Include="Assets\Script\UI\WorldTextMineUpdater.cs" />
     <Compile Include="Assets\Script\Summoning System\TowerToken.cs" />
+    <Compile Include="Assets\Script\Ai\AICounter.cs" />
     <Compile Include="Assets\Script\WallSystem\WestTrigger.cs" />
     <Compile Include="Assets\Script\Player\PlayerController.cs" />
     <Compile Include="Assets\Script\Core Interfaces\ITransact.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Assets\Script\UpgradeLogic\UIClickTrigger.cs" />
     <Compile Include="Assets\Script\UI\BillBoardCamera.cs" />
     <Compile Include="Assets\Script\Core Interfaces\IHealth.cs" />
+    <Compile Include="Assets\Script\UI\ReduceVisbility.cs" />
     <Compile Include="Assets\Script\Mine\Spawner.cs" />
     <Compile Include="Assets\Misc prefab\Transaction\TransactionSet.cs" />
     <Compile Include="Assets\Script\Mine\MineSpawner.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="Assets\Script\Ai\BaseEnemyAI.cs" />
     <Compile Include="Assets\Script\WallSystem\EastTrigger.cs" />
     <Compile Include="Assets\StarterAssets\Mobile\Scripts\Utilities\MobileDisableAutoSwitchControls.cs" />
+    <Compile Include="Assets\Script\SaveSystem\ResourceConnect.cs" />
     <Compile Include="Assets\Script\Player\CoreLogic\PlayerToMine.cs" />
     <Compile Include="Assets\Script\Summoning System\TowerTokenTransaction.cs" />
     <Compile Include="Assets\Script\Player\CoreLogic\InventoryRegulator.cs" />
@@ -112,6 +116,7 @@
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
     <Compile Include="Assets\Script\Defensive Towers\TowerManager.cs" />
     <Compile Include="Assets\Script\Summoning System\SummonManager.cs" />
+    <Compile Include="Assets\Script\SaveSystem\InventorySave.cs" />
     <Compile Include="Assets\Script\WallSystem\TileManager.cs" />
     <Compile Include="Assets\Script\WallSystem\SouthTrigger.cs" />
     <Compile Include="Assets\Script\UI\NotificationUI.cs" />
@@ -123,7 +128,9 @@
     <Compile Include="Assets\StarterAssets\Mobile\Scripts\VirtualInputs\UIVirtualButton.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Script\Resources\BaseResource.cs" />
+    <Compile Include="Assets\Script\UI\WorldTextTowerUpdater.cs" />
     <Compile Include="Assets\Script\UI\TextMeshProUpgradeUpdate.cs" />
+    <Compile Include="Assets\Script\Defensive Towers\ForestSave.cs" />
     <Compile Include="Assets\Script\Planet.cs" />
     <Compile Include="Assets\Script\Summoning System\PlatformRotate.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
@@ -131,6 +138,7 @@
     <Compile Include="Assets\Joystick Pack\Scripts\Base\Joystick.cs" />
     <Compile Include="Assets\Script\Ai\AiTarget.cs" />
     <Compile Include="Assets\Script\Mine\MineLevelIncrease.cs" />
+    <Compile Include="Assets\Script\WallSystem\SafeSpace.cs" />
     <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
     <Compile Include="Assets\Script\Defensive Towers\InitializeSetUp.cs" />
     <Compile Include="Assets\Script\Summoning System\SummoningDecision.cs" />
@@ -140,14 +148,18 @@
     <Compile Include="Assets\Script\Summoning System\BundlePackage.cs" />
     <Compile Include="Assets\Script\SaveSystem\MineSave.cs" />
     <Compile Include="Assets\Script\Core Interfaces\ILevel.cs" />
+    <Compile Include="Assets\Script\Defensive Towers\TowerLevel.cs" />
     <Compile Include="Assets\StarterAssets\Mobile\Scripts\CanvasInputs\UICanvasControllerInput.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
     <Compile Include="Assets\Script\WallSystem\NorthTrigger.cs" />
     <Compile Include="Assets\Joystick Pack\Examples\JoystickSetterExample.cs" />
+    <Compile Include="Assets\Script\SaveSystem\ResourceSave.cs" />
     <Compile Include="Assets\Script\Resources\PlayersInventory.cs" />
     <Compile Include="Assets\Script\SaveSystem\PrefabRegistry.cs" />
     <Compile Include="Assets\Script\SaveSystem\TowerSave.cs" />
+    <Compile Include="Assets\Script\Defensive Towers\ForestSaveData.cs" />
     <Compile Include="Assets\Script\Summoning System\BaseToken.cs" />
+    <Compile Include="Assets\Script\SaveSystem\ResourceSaveData.cs" />
     <Compile Include="Assets\Script\Tree\Forest.cs" />
     <Compile Include="Assets\StarterAssets\ThirdPersonController\Scripts\BasicRigidBodyPush.cs" />
     <Compile Include="Assets\Script\Tree\Axe.cs" />
@@ -159,6 +171,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
+    <None Include="Assets\Simple Toon\Shaders\STOutline.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
@@ -169,23 +182,30 @@
     <None Include="Assets\UnityTechnologies\ParticlePack\EffectExamples\Misc Effects\Shaders\Respawn.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\Simple Toon\Shaders\STTransparent.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Assets\StarterAssets\license.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\Simple Toon\Shaders\STCore.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\Script\Defensive Towers\Logic.txt" />
+    <None Include="Assets\Simple Toon\Shaders\STDefault.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\UnityTechnologies\ParticlePack\EffectExamples\Misc Effects\Shaders\FireFly.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\Simple Toon\Shaders\STFunctions.cginc" />
     <None Include="Assets\3D Haven\Free Fantasy Terrain Textures\Documentation\Version Log.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\FlexibleCelShader\Shaders\CelNoOutline.shader" />
     <None Include="Assets\kenney_nature-kit\License.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\FlexibleCelShader\Shaders\CelSilhouette.shader" />
+    <None Include="Assets\FlexibleCelShader\Shaders\CelOutline.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>

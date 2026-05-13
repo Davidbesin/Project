@@ -23,7 +23,12 @@ public class BaseResource : ScriptableObject
         // Clamp so it never goes below 0
         Amount -= subtraction;
         if (Amount < 0) Amount = 0;
-
        // Debug.Log($"Subtracted {subtraction}, new amount = {amount}");
+    }
+
+    public void SetAmount(int amount) 
+    {
+        
+        Amount = amount;
     }
 }

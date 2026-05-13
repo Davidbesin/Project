@@ -22,10 +22,6 @@ public class PlayerToMine : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-       // whatToCollect = Player.Instance.GatherSpeed;
-    }
     private void OnTriggerExit(Collider other)
     {
         Mine currentMine = other.GetComponent<Mine>();

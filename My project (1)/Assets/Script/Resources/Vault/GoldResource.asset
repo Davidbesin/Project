@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5db417e4cd99cd46bdfb6b5e3a85bc2, type: 3}
   m_Name: GoldResource
   m_EditorClassIdentifier: Assembly-CSharp::Gold
-  amount: 111
+  amount: 165

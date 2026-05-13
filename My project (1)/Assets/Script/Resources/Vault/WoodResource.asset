@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0464fcd04d02d014b8d159ca58ce7d0d, type: 3}
   m_Name: WoodResource
   m_EditorClassIdentifier: Assembly-CSharp::Wood
-  amount: 120
+  amount: 146

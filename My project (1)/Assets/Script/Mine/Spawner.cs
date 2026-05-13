@@ -1,25 +1,74 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private BoxCollider spawnZone;   // define spawn area
-    [SerializeField] private GameObject minePrefab;
-    [SerializeField] private Vector3 offset;
-    public int AIToSpawn => TowerManager.Instance.TotalWaveStrength;   // number of mines based on towers
-    [SerializeField] private float spacingRadius = 1f; 
-    [SerializeField] private int maxAttemptsPerMine = 30;
-    [SerializeField] private float spawnInterval = 180f; // 3 minutes in seconds
+    [Header("Pool Parents")]
+    [SerializeField] private Transform northParent;
+    [SerializeField] private Transform eastParent;
+    [SerializeField] private Transform westParent;
+
+    [Header("Location")]
+    [SerializeField] private Transform north;
+    [SerializeField] private Transform east;
+    [SerializeField] private Transform west;
+
+    [Header("Pools")]
+    [SerializeField] private List<GameObject> northAI = new List<GameObject>();
+    [SerializeField] private List<GameObject> eastAI  = new List<GameObject>();
+    [SerializeField] private List<GameObject> westAI  = new List<GameObject>();
+
+    private List<List<GameObject>> allPools = new List<List<GameObject>>();
+
+    [Header("Spawn Settings")]
+    [SerializeField] private float spawnInterval = 180f;
+
+    // 👀 visible in inspector
+    [SerializeField] private int totalWaveStrength;
+
+    public int AIToSpawn => TowerManager.Instance.TotalWaveStrength;
 
     private Coroutine spawnRoutine;
+    private int directionIndex;
 
-    // Hook this method to your UI Button
+    private void Awake()
+    {
+        // Fill each pool from its parent transform
+        FillPool(northParent, northAI);
+        FillPool(eastParent, eastAI);
+        FillPool(westParent, westAI);
+
+        // Collect all pools into one list-of-lists
+        allPools.Clear();
+        allPools.Add(northAI);
+        allPools.Add(eastAI);
+        allPools.Add(westAI);
+    }
+
+    private void Update()
+    {
+        // keep inspector value in sync
+        totalWaveStrength = TowerManager.Instance.TotalWaveStrength;
+    }
+
+    private void FillPool(Transform parent, List<GameObject> pool)
+    {
+        pool.Clear();
+        if (parent == null) return;
+
+        foreach (Transform child in parent)
+        {
+            pool.Add(child.gameObject);
+        }
+    }
+
     public void StartSpawning()
     {
         if (spawnRoutine == null)
         {
             spawnRoutine = StartCoroutine(SpawnLoop());
-            Debug.Log("Spawn loop started via button.");
+            Debug.Log("Spawn loop started.");
         }
     }
 
@@ -27,84 +76,59 @@ public class Spawner : MonoBehaviour
     {
         while (true)
         {
-            SpawnMines();
+            SpawnWave();
             yield return new WaitForSeconds(spawnInterval);
         }
     }
 
-    public void SpawnMines()
+    private void SpawnWave()
     {
-        Debug.Log("=== SpawnMines Started ===");
-
         int spawnedCount = 0;
 
         while (spawnedCount < AIToSpawn)
         {
-            bool success = false;
-
-            for (int attempt = 0; attempt < maxAttemptsPerMine; attempt++)
+            if (ActivateNextDirection())
             {
-                if (TrySpawn())
-                {
-                    spawnedCount++;
-                    success = true;
-                    break;
-                }
+                spawnedCount++;
             }
-
-            if (!success)
+            else
             {
-                Debug.LogWarning("FAILED: Could not place mine after attempts");
+                Debug.LogWarning("No inactive AI available in current pool.");
                 break;
             }
         }
 
-        Debug.Log("Spawn complete. Total mines: " + spawnedCount);
+        Debug.Log("Spawn complete. Spawned: " + spawnedCount);
     }
 
-    private bool TrySpawn()
+    public bool ActivateNextDirection()
     {
-        Vector3 randomPoint = new Vector3(
-            Random.Range(spawnZone.bounds.min.x, spawnZone.bounds.max.x),
-            spawnZone.bounds.max.y,
-            Random.Range(spawnZone.bounds.min.z, spawnZone.bounds.max.z)
-        );
+        List<GameObject> currentPool = allPools[directionIndex];
+        GameObject ai = GetInactiveAI(currentPool);
 
-        Vector3 rayDir = Vector3.down;
-        float rayLength = spawnZone.bounds.size.y + 100f;
+        // cycle index for next call
+        directionIndex++;
+        if (directionIndex >= allPools.Count)
+            directionIndex = 0;
 
-        if (Physics.Raycast(randomPoint, rayDir, out RaycastHit hit, rayLength))
+        if (ai != null)
         {
-            Vector3 spawnPos = hit.point;
-
-            // Overlap check
-            Collider[] hits = Physics.OverlapSphere(spawnPos, spacingRadius);
-            foreach (var col in hits)
-            {
-                // Ignore terrain
-                if (col.TryGetComponent<Terrain>(out _)) continue;
-
-                // Ignore spawner itself
-                if (col.TryGetComponent<Spawner>(out _)) continue;
-
-                // Block if another mine is too close
-                if (col.TryGetComponent<Mine>(out _)) return false;
-
-                // Block if collider is tagged SafeSpace
-                if (col.CompareTag("SafeSpace"))
-                {
-                    Debug.Log("Blocked by SafeSpace zone: " + col.name);
-                    return false;
-                }
-            }
-
-            Quaternion rot = Quaternion.FromToRotation(Vector3.up, hit.normal);
-            Instantiate(minePrefab, spawnPos + offset, rot);
-
+            ai.SetActive(true);
+            AiTarget target = ai.GetComponent<AiTarget>();
+            if (target != null) target.GoTo();
             return true;
         }
 
         return false;
     }
 
+    private GameObject GetInactiveAI(List<GameObject> pool)
+    {
+        foreach (GameObject ai in pool)
+        {
+            if (!ai.activeInHierarchy)
+                return ai;
+        }
+        return null;
+    }
 }

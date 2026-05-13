@@ -58,8 +58,6 @@ public class BaseEnemyAI : MonoBehaviour, IEnemy, ICombatant
         designatedEnemy = theoriticalEnemy;
         Debug.Log("Yea Weve seen it");
         if (attack == null) attack= StartCoroutine(AttackEnemy(timeRate));
-       
-
     }
 
     protected virtual void OnTriggerExit(Collider other) 

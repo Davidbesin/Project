@@ -13,7 +13,9 @@ public class MineLevel : MonoBehaviour, ILevel
     void Awake()
     {
         personalMine = GetComponent<Mine>();
+        statlevel = GetComponent<UpgradeableStatInterface>();
     }
+
 
     public void ApplyAllUpgrades()
     {

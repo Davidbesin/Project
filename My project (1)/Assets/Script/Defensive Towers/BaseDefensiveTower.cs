@@ -1,75 +1,71 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(TowerLevel))]
+[RequireComponent(typeof(SphereCollider))]
 public abstract class BaseDefensiveTower : MonoBehaviour, IWaveContributor, IHealth
 {
     public List<BaseEnemyAI> enemyWithinRange = new();
 
-    [Header("Basic Tower Stats")]
-    [SerializeField] protected int towerLevel = 1;
+    [Header("Base Tower Stats")]
     [SerializeField] protected int baseHealth = 100;
-    [SerializeField] protected int regenRateHealth;
+    [SerializeField] protected int baseRegenRateHealth = 1;
+    [SerializeField] protected float baseRange = 5f;
+
+    [Header("Current Tower Stats")]
     [SerializeField] protected int health;
-    protected float range;
+    [SerializeField] protected int regenRateHealth;
+    [SerializeField] protected int maxHealth;
+    [SerializeField] protected float range;
+
     public bool PlayerSide => true;
-    private SphereCollider trigger;
+    protected SphereCollider trigger;
+    protected TowerLevel towerLevelComponent;
 
     public int Health 
     { 
         get => health; 
-        set => health = Mathf.Clamp(value, 0, MaxHealth); 
+        set => health = Mathf.Clamp(value, 0, maxHealth); 
     }
 
     public float Range => range;
-    public int MaxHealth;
-
-    public int TowerLevel
-    {
-        get => towerLevel;
-        set
-        {
-            towerLevel = Mathf.Max(1, value);
-            UpdateStats();
-            TowerManager.Instance.RecalculateWaveStrength(); // update manager when level changes
-        }
-    }
+    public int MaxHealth => maxHealth;
 
     private void Awake() 
     {
         trigger = GetComponent<SphereCollider>();
+        towerLevelComponent = GetComponent<TowerLevel>();
+
         if (!trigger || !trigger.isTrigger)
         {
             Debug.LogError("Tower requires a SphereCollider set as trigger.");
             return;
         }
-
-        UpdateStats();
     }
 
-    private void UpdateStats()
-    {
-        MaxHealth = baseHealth; // you can expand this with upgrades later
-        health = MaxHealth;
-    }
-
+     
     private void Update()
     {
-        health = Mathf.Min(MaxHealth, health + regenRateHealth);
+        health = Mathf.Min(maxHealth, health + regenRateHealth);
     }
 
     public virtual void OnEnable()
     {
-        UpdateStats();
-        TowerManager.Instance.JoinList(this); // register with manager
+       //s ApplyLevelScaling();
+        if  (!TowerManager.Instance.MyTowers.Contains(this))
+           { if (TowerManager.Instance == null) Debug.Log("bull dg");
+           TowerManager.Instance.JoinList(this);}
+
+            Debug.Log("dhdg");
     }
 
     public virtual void OnDisable()
     {
-        TowerManager.Instance.GetOutOfList(this); // unregister from manager
+        TowerManager.Instance.GetOutOfList(this);
     }
 
     // IWaveContributor implementation
-    public int ContributeToWave() => towerLevel;
+    public int ContributeToWave() => towerLevelComponent.Level;
 
     // IHealth implementation
     public void TakeDamage(int damage) => Health -= damage;
@@ -93,19 +89,20 @@ public abstract class BaseDefensiveTower : MonoBehaviour, IWaveContributor, IHea
         enemyWithinRange.Remove(enemy);
     }
 
-    public void SetRange(float range)
+    // 🔑 Scaling method
+    public void ApplyLevelScaling()
     {
-        this.range = range;
+        int level = towerLevelComponent.Level;
+
+        maxHealth = baseHealth * level;
+        regenRateHealth = baseRegenRateHealth * level;
+        range = baseRange * level;
+
+        health = maxHealth;
+
         if (trigger != null)
-            trigger.radius = range;
+            trigger.radius = range; // range directly drives collider radius
     }
 
     protected abstract void DealWithEnemies();
-
-    public void ApplyStatsToTowerLevel(int level)
-    {
-        this.towerLevel = Mathf.Max(1, level);
-        UpdateStats();
-        TowerManager.Instance.RecalculateWaveStrength(); // keep manager updated
-    }
 }

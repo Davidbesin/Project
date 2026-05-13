@@ -13,6 +13,8 @@ public class TowerManager : MonoBehaviour
         Instance = this;
     }
 
+  //  void Start() => RecalculateWaveStrength();
+
     public void JoinList(BaseDefensiveTower tower)
     {
         MyTowers.Add(tower);
@@ -31,14 +33,6 @@ public class TowerManager : MonoBehaviour
         foreach (var tower in MyTowers)
         {
             TotalWaveStrength += tower.ContributeToWave();
-        }
-    }
-
-    public void ChangeRange(float rang)
-    {
-        foreach (var tower in MyTowers)
-        {
-            tower.SetRange(rang);
         }
     }
 }

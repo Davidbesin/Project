@@ -1594,6 +1594,7 @@ GameObject:
   - component: {fileID: -3042680311340548147}
   - component: {fileID: 123552912857994835}
   - component: {fileID: 3058432610396812854}
+  - component: {fileID: 1894631237786925708}
   m_Layer: 0
   m_Name: TurrentBundle
   m_TagString: Untagged
@@ -1647,11 +1648,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackDefensiveTower
   enemyWithinRange: []
-  towerLevel: 1
   baseHealth: 100
-  regenRateHealth: 0
+  baseRegenRateHealth: 1
+  baseRange: 5
   health: 0
-  MaxHealth: 0
+  regenRateHealth: 0
+  maxHealth: 0
+  range: 0
   timeRate: 3.48
   type: 1
   damage: 15
@@ -1805,7 +1808,61 @@ MonoBehaviour:
       m_Calls: []
   playerBag: {fileID: 11400000, guid: ce1b77e7f7b2a924a9496e1a0155497d, type: 2}
   playerVault: {fileID: 11400000, guid: 1467814b0e197da40a41b22506aa85cc, type: 2}
-  toSpend: []
+  toSpend:
+  - items:
+    - resource: {fileID: 11400000, guid: 9ac47a4105d4f734f9d4b45ca9847f31, type: 2}
+      amount: 10
+    - resource: {fileID: 11400000, guid: ef1131a46a740f84d98a96dcb4b9f90c, type: 2}
+      amount: 10
+    - resource: {fileID: 11400000, guid: e492be8a240f0a04a987d50c6f792a2d, type: 2}
+      amount: 10
+    - resource: {fileID: 11400000, guid: eab7138bdde87414abe8db24afec1a5a, type: 2}
+      amount: 50
+  - items:
+    - resource: {fileID: 11400000, guid: 9ac47a4105d4f734f9d4b45ca9847f31, type: 2}
+      amount: 15
+    - resource: {fileID: 11400000, guid: ef1131a46a740f84d98a96dcb4b9f90c, type: 2}
+      amount: 15
+    - resource: {fileID: 11400000, guid: e492be8a240f0a04a987d50c6f792a2d, type: 2}
+      amount: 15
+    - resource: {fileID: 11400000, guid: eab7138bdde87414abe8db24afec1a5a, type: 2}
+      amount: 75
+  - items:
+    - resource: {fileID: 11400000, guid: 9ac47a4105d4f734f9d4b45ca9847f31, type: 2}
+      amount: 20
+    - resource: {fileID: 11400000, guid: ef1131a46a740f84d98a96dcb4b9f90c, type: 2}
+      amount: 20
+    - resource: {fileID: 11400000, guid: e492be8a240f0a04a987d50c6f792a2d, type: 2}
+      amount: 20
+    - resource: {fileID: 11400000, guid: eab7138bdde87414abe8db24afec1a5a, type: 2}
+      amount: 100
+  - items:
+    - resource: {fileID: 11400000, guid: 9ac47a4105d4f734f9d4b45ca9847f31, type: 2}
+      amount: 30
+    - resource: {fileID: 11400000, guid: ef1131a46a740f84d98a96dcb4b9f90c, type: 2}
+      amount: 30
+    - resource: {fileID: 11400000, guid: e492be8a240f0a04a987d50c6f792a2d, type: 2}
+      amount: 30
+    - resource: {fileID: 11400000, guid: eab7138bdde87414abe8db24afec1a5a, type: 2}
+      amount: 125
+  - items:
+    - resource: {fileID: 11400000, guid: 9ac47a4105d4f734f9d4b45ca9847f31, type: 2}
+      amount: 40
+    - resource: {fileID: 11400000, guid: ef1131a46a740f84d98a96dcb4b9f90c, type: 2}
+      amount: 40
+    - resource: {fileID: 11400000, guid: e492be8a240f0a04a987d50c6f792a2d, type: 2}
+      amount: 40
+    - resource: {fileID: 11400000, guid: eab7138bdde87414abe8db24afec1a5a, type: 2}
+      amount: 150
+  - items:
+    - resource: {fileID: 11400000, guid: 9ac47a4105d4f734f9d4b45ca9847f31, type: 2}
+      amount: 50
+    - resource: {fileID: 11400000, guid: ef1131a46a740f84d98a96dcb4b9f90c, type: 2}
+      amount: 50
+    - resource: {fileID: 11400000, guid: e492be8a240f0a04a987d50c6f792a2d, type: 2}
+      amount: 50
+    - resource: {fileID: 11400000, guid: eab7138bdde87414abe8db24afec1a5a, type: 2}
+      amount: 200
   uiClickTrigger: {fileID: 0}
 --- !u!114 &3058432610396812854
 MonoBehaviour:
@@ -1820,7 +1877,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UiTriggerBinder
   uiTag: UpgradeButton
-  statInterface: {fileID: 123552912857994835}
+--- !u!114 &1894631237786925708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718270341939770139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 947f1ce6208945f4fbc2037fd5f90b96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerLevel
+  statLevel: {fileID: 0}
 --- !u!1 &3902665130086246202
 GameObject:
   m_ObjectHideFlags: 0
@@ -2578,6 +2647,7 @@ GameObject:
   - component: {fileID: 5979238116611557697}
   - component: {fileID: 1002652725415895267}
   - component: {fileID: 5364314357155831140}
+  - component: {fileID: 7209599925249262742}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2704,6 +2774,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7209599925249262742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5720878328134225561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a37734fe9f6e32a419c8b014944a2d3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldTextTowerUpdater
+  textMesh: {fileID: 0}
+  level: {fileID: 1894631237786925708}
 --- !u!1 &6181597431892618756
 GameObject:
   m_ObjectHideFlags: 0

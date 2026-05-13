@@ -3,23 +3,19 @@ using UnityEngine;
 [System.Serializable]
 public class TowerSaveData
 {
-    public string type;
-    public Vector3 position;
-    public Quaternion rotation;
-    public Vector3 scale;
+    public string type;        // identifier for object type
+    public int level;          // tower level
+    public Vector3 position;   // world position
+    public Quaternion rotation;// world rotation
+    public Vector3 scale;      // local scale
 
-
-    // Upgrade levels
-    
-
-    public TowerSaveData(BaseDefensiveTower tower)
+    public TowerSaveData(BaseDefensiveTower tower, TowerLevel towerLevel, string typeOf)
     {
-        type = "attackingTower";
+        type = typeOf;
         position = tower.transform.position;
         rotation = tower.transform.rotation;
         scale = tower.transform.localScale;
 
-        // Safe null checks
-       
+        level = (towerLevel != null) ? towerLevel.Level : 1;
     }
 }

@@ -59,11 +59,20 @@ public class UpgradeableStatInterface : MonoBehaviour, ITransact
 
         foreach (var transact in transactList)
         {
+            if  (!playerBag.CanSubtract(transact.resource.GetType(), transact.amount))
+            {
+                 if (!playerVault.CanSubtract(transact.resource.GetType(), transact.amount)) return false;
+            
+            }
+        }    
+         foreach (var transact in transactList)
+         {
             if (!playerBag.SubtractResources(transact.resource.GetType(), transact.amount))
             {
                  if (!playerVault.SubtractResources(transact.resource.GetType(), transact.amount)) return false;
             }
-        }
+        }   
+       
 
         Debug.Log("Upgrade transaction complete");
         HasBought = true;
@@ -83,6 +92,7 @@ public class UpgradeableStatInterface : MonoBehaviour, ITransact
         if (player == null) return;
 
         Debug.Log("Player entered upgrade trigger zone");
+        if (uiClickTrigger == null)return;
         uiClickTrigger.OnUpgradeAction.AddListener(UpgradeLevel);
     }
 
@@ -92,6 +102,7 @@ public class UpgradeableStatInterface : MonoBehaviour, ITransact
         if (player == null) return;
 
         Debug.Log("Player exited upgrade trigger zone");
+        if (uiClickTrigger == null)return;
         uiClickTrigger.OnUpgradeAction.RemoveListener(UpgradeLevel);
     }
 

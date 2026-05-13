@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085b21b13ddb3b441b758e40b240af45, type: 3}
   m_Name: GemResource
   m_EditorClassIdentifier: Assembly-CSharp::Gem
-  amount: 0
+  amount: 165

@@ -17,7 +17,7 @@ public class PlayerToSpend : MonoBehaviour
             }
         }
 
-        transact.toAllowBuy.Invoke();
+        transact.toAllowBuy?.Invoke();
   
     }
 
@@ -26,7 +26,7 @@ public class PlayerToSpend : MonoBehaviour
         ITransact transact = other.GetComponent<ITransact>();
         if (transact == null) return;
         currentTransaction = null;
-        transact.toNotAllowBuy.Invoke();
+        transact.toNotAllowBuy?.Invoke();
     }
 
     public void Transaction()

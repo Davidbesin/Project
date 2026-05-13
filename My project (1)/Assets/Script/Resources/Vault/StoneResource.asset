@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5562102b1631089468d213df78a71473, type: 3}
   m_Name: StoneResource
   m_EditorClassIdentifier: Assembly-CSharp::StoneResource
-  amount: 0
+  amount: 165

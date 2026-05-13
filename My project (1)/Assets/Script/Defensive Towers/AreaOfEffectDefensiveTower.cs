@@ -13,8 +13,7 @@ public class AreaOfEffectDefensiveTower : BaseDefensiveTower
     int Damage; 
     Coroutine attack;
 
-    [SerializeField] UpgradeableStatInterface upgradeableTime;
-    [SerializeField] UpgradeableStatInterface upgradeableAttack;
+    [SerializeField] UpgradeableStatInterface stat;
     protected override void OnTriggerEnter(Collider other)
     {
         BaseEnemyAI enemy = other.GetComponent<BaseEnemyAI>();
@@ -60,10 +59,10 @@ public class AreaOfEffectDefensiveTower : BaseDefensiveTower
    
    public void ApplyStatsToDamage ()
     {
-        Damage = upgradeableAttack.level * baseDamage;
+        Damage = stat.level * baseDamage;
     }
     public void ApplyStatsToTimeRate()
     {
-        timeRate = baseTimeRate * upgradeableTime.level;
+        timeRate = baseTimeRate * stat.level;
     }
 }

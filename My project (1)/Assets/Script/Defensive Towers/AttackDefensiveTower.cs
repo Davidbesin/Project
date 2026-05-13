@@ -1,42 +1,129 @@
 using UnityEngine;
-using System.Collections;   
+using System.Collections;
 using System.Collections.Generic;
 using System;
 
 public class AttackDefensiveTower : BaseDefensiveTower
 {
     Coroutine attack;
+
     [SerializeField] float timeRate;
     [SerializeField] int type;
     [SerializeField] int damage;
-    int Damage => type * damage; 
+
+    int Damage => type * damage;
 
     public event Action onDealWithEnemies;
-    public event Action GetReady; 
+    public event Action GetReady;
 
     public BaseEnemyAI designatedTarget;
 
-    [SerializeField] ParticleSystem attackEffect;  // Particle system reference
-    void Start() => attackEffect.Stop();
-    void OnTriggerEnter(Collider other)
+    [SerializeField] ParticleSystem attackEffect;
+
+    private void Awake()
+    {
+        attackEffect?.Stop();
+        trigger = GetComponent<SphereCollider>();
+        towerLevelComponent = GetComponent<TowerLevel>();
+
+        if (!trigger || !trigger.isTrigger)
+        {
+            Debug.LogError("Tower requires a SphereCollider set as trigger.");
+            return;
+        }
+    }
+    void Start()
+    {
+        attackEffect?.Stop();
+        ApplyLevelScaling();  
+
+    }
+    public override void OnEnable()
+    {
+        attackEffect?.Stop();
+        if  (!TowerManager.Instance.MyTowers.Contains(this))
+           { if (TowerManager.Instance == null) Debug.Log("bull dg");
+           TowerManager.Instance.JoinList(this);}
+
+            Debug.Log("dhdg");
+    }
+   protected override void OnTriggerEnter(Collider other)
     {
         BaseEnemyAI enemy = other.GetComponent<BaseEnemyAI>();
+
         if (enemy == null) return;
 
-        enemyWithinRange.Add(enemy);
-        if (attack == null) attack = StartCoroutine(AttackRunning(timeRate));
+        if (!enemy.gameObject.activeInHierarchy) return;
+
+        if (!enemyWithinRange.Contains(enemy))
+        {
+            enemyWithinRange.Add(enemy);
+        }
+
+        if (attack == null)
+        {
+            attack = StartCoroutine(AttackRunning(timeRate));
+        }
     }
 
-    void OnTriggerExit(Collider other)
+    protected override void OnTriggerExit(Collider other)
     {
         BaseEnemyAI enemy = other.GetComponent<BaseEnemyAI>();
+
         if (enemy == null) return;
 
         enemyWithinRange.Remove(enemy);
-        if (enemyWithinRange.Count == 0 && attack != null)  
+
+        StopAttackIfNeeded();
+    }
+
+    IEnumerator AttackRunning(float seconds)
+    {
+        while (true)
         {
-            StopCoroutine(attack); 
+            CleanupEnemies();
+
+            if (enemyWithinRange.Count == 0)
+            {
+                attack = null;
+
+                if (attackEffect != null)
+                {
+                    attackEffect.Stop();
+                }
+
+                yield break;
+            }
+
+            DealWithEnemies();
+
+            yield return new WaitForSeconds(seconds);
+        }
+    }
+
+    void CleanupEnemies()
+    {
+        for (int i = enemyWithinRange.Count - 1; i >= 0; i--)
+        {
+            BaseEnemyAI enemy = enemyWithinRange[i];
+
+            if (enemy == null || !enemy.gameObject.activeInHierarchy)
+            {
+                enemyWithinRange.RemoveAt(i);
+            }
+        }
+    }
+
+    void StopAttackIfNeeded()
+    {
+        CleanupEnemies();
+
+        if (enemyWithinRange.Count == 0 && attack != null)
+        {
+            StopCoroutine(attack);
+
             attack = null;
+
             if (attackEffect != null)
             {
                 attackEffect.Stop();
@@ -44,26 +131,23 @@ public class AttackDefensiveTower : BaseDefensiveTower
         }
     }
 
-    IEnumerator AttackRunning(float seconds)
-    {
-        while (enemyWithinRange.Count > 0)
-        {
-            DealWithEnemies();
-            yield return new WaitForSeconds(seconds);
-        }
-    }
-
     protected override void DealWithEnemies()
     {
-        GetReady?.Invoke();
-        enemyWithinRange.RemoveAll(e => e == null);
+        CleanupEnemies();
 
-        if (enemyWithinRange.Count == 0) return;
+        if (enemyWithinRange.Count == 0)
+            return;
+
+        GetReady?.Invoke();
 
         BaseEnemyAI target = enemyWithinRange[0];
+
         if (target == null) return;
 
+        if (!target.gameObject.activeInHierarchy) return;
+
         designatedTarget = target;
+
         onDealWithEnemies?.Invoke();
 
         if (attackEffect != null)
@@ -73,5 +157,4 @@ public class AttackDefensiveTower : BaseDefensiveTower
 
         target.TakeDamage(Damage);
     }
-
 }

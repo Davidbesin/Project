@@ -6,7 +6,7 @@ public class UiTriggerBinder : MonoBehaviour
     [SerializeField] private string uiTag = "UpgradeButton";
 
     [Tooltip("Reference to the stat interface this binder should connect")]
-    [SerializeField] private UpgradeableStatInterface statInterface;
+    private UpgradeableStatInterface statInterface;
 
     private UiClickTrigger uiClickTrigger;
 
@@ -19,7 +19,7 @@ public class UiTriggerBinder : MonoBehaviour
             Debug.LogError($"No GameObject found with tag {uiTag}");
             return;
         }
-
+        statInterface = GetComponent<UpgradeableStatInterface>();
         // Get the UiClickTrigger component
         uiClickTrigger = uiObject.GetComponent<UiClickTrigger>();
         if (uiClickTrigger == null)

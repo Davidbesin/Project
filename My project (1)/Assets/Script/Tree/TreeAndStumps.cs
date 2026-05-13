@@ -90,6 +90,9 @@ public class TreeAndStumps : MonoBehaviour
 
     }
 
+
+
+
     public void SetTheNut(int nut)
     {
         woodToGet = nut;
