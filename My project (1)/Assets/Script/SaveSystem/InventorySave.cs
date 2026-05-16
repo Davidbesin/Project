@@ -1,39 +1,62 @@
 using UnityEngine;
 using System.IO;
 
+[RequireComponent(typeof(InventoryRegulator))]
 public class InventorySave : MonoBehaviour
 {
+    [SerializeField] string typeOf; // optional type tag
     [SerializeField] private InventoryRegulator regulator1;
     [SerializeField] private InventoryRegulator regulator2;
+    [SerializeField] private UpgradeableStatInterface upgrade1;
+    [SerializeField]private UpgradeableStatInterface upgrade2;
 
-    private string SavePath => Path.Combine(Application.persistentDataPath, "InventoryRegulators.json");
+    private bool subscribed = false;
+
+   
+
+    private void Start()
+    {
+        TrySubscribe();
+    }
 
     private void OnEnable()
     {
-        if (SaveManager.Instance != null)
-            SaveManager.Instance.AllSave += SaveBoth;
-        else
-            Debug.LogError("SaveManager not ready when InventoryRegulatorsSave enabled!");
+        TrySubscribe();
     }
 
     private void OnDisable()
     {
-        if (SaveManager.Instance != null)
-            SaveManager.Instance.AllSave -= SaveBoth;
+        if (subscribed && SaveManager.Instance != null)
+        {
+            SaveManager.Instance.AllSave -= SaveInventory;
+            subscribed = false;
+        }
     }
 
-    public void SaveBoth()
+    private void TrySubscribe()
     {
-        if (regulator1 == null || regulator2 == null)
+        if (!subscribed && SaveManager.Instance != null)
         {
-            Debug.LogError("One or both regulators not assigned!");
-            return;
+            SaveManager.Instance.AllSave += SaveInventory;
+            subscribed = true;
         }
+        else if (SaveManager.Instance == null)
+        {
+            Debug.LogError("SaveManager not ready when InventorySave enabled!");
+        }
+    }
 
-        InventorySaveData data = new InventorySaveData(regulator1, regulator2);
+    public void SaveInventory()
+    {
+        if (regulator1 == null || regulator2 == null) return;
+
+        InventorySaveData data = new InventorySaveData(upgrade1, upgrade2);
         string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(SavePath, json);
 
-        Debug.Log($"Inventory regulators saved: {SavePath}");
+        string safeName = $"Inventory_{gameObject.GetInstanceID()}.json";
+        string path = Path.Combine(Application.persistentDataPath, safeName);
+
+        File.WriteAllText(path, json);
+        Debug.Log($"Inventory saved: {path}");
     }
 }

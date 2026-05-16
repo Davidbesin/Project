@@ -1,68 +1,126 @@
 using UnityEngine;
-using System.Collections;   
+using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class AreaOfEffectDefensiveTower : BaseDefensiveTower
 {
-    Coroutine Attack;
-    public float timeRate;
-    [SerializeField]float baseTimeRate;
-
-    
-    [SerializeField]int baseDamage;
-    int Damage; 
     Coroutine attack;
 
-    [SerializeField] UpgradeableStatInterface stat;
+    [SerializeField] float timeRate;
+    [SerializeField] int type;
+    [SerializeField] int damage;
+
+    int Damage => type * damage;
+
+    public event Action onDealWithEnemies;
+    public event Action GetReady;
+
+    [SerializeField] ParticleSystem attackEffect;
+
+    private void Awake()
+    {
+        attackEffect?.Stop();
+        trigger = GetComponent<SphereCollider>();
+        towerLevelComponent = GetComponent<TowerLevel>();
+
+        if (!trigger || !trigger.isTrigger)
+        {
+            Debug.LogError("Tower requires a SphereCollider set as trigger.");
+            return;
+        }
+    }
+
+    private void Start()
+    {
+        attackEffect?.Stop();
+        ApplyLevelScaling();  // same as AttackDefensiveTower
+    }
+
+    public override void OnEnable()
+    {
+        attackEffect?.Stop();
+        if (!TowerManager.Instance.MyTowers.Contains(this))
+        {
+            TowerManager.Instance.JoinList(this);
+        }
+    }
+
     protected override void OnTriggerEnter(Collider other)
     {
         BaseEnemyAI enemy = other.GetComponent<BaseEnemyAI>();
-        if (enemy == null) return;
+        if (enemy == null || !enemy.gameObject.activeInHierarchy) return;
 
-        Debug.Log("Entered mytarap" );
+        if (!enemyWithinRange.Contains(enemy))
+            enemyWithinRange.Add(enemy);
 
-        if (!enemyWithinRange.Contains(enemy))  {enemyWithinRange.Add(enemy);} 
-        if (attack == null) {attack= StartCoroutine(AttackRunning(timeRate));}
-       
+        if (attack == null)
+            attack = StartCoroutine(AttackRunning(timeRate));
     }
 
-    // Enemy leaves range
     protected override void OnTriggerExit(Collider other)
     {
         BaseEnemyAI enemy = other.GetComponent<BaseEnemyAI>();
-        
         if (enemy == null) return;
 
         enemyWithinRange.Remove(enemy);
-        if (enemyWithinRange.Count == 0 && attack != null)  {StopCoroutine(attack); attack = null;}
-       
+        StopAttackIfNeeded();
     }
 
-   IEnumerator AttackRunning(float seconds)
+    IEnumerator AttackRunning(float seconds)
     {
-        while (enemyWithinRange.Count > 0)
+        while (true)
         {
+            CleanupEnemies();
+
+            if (enemyWithinRange.Count == 0)
+            {
+                attack = null;
+                attackEffect?.Stop();
+                yield break;
+            }
+
             DealWithEnemies();
             yield return new WaitForSeconds(seconds);
         }
     }
 
-    protected override void DealWithEnemies()
-    {    
-        foreach (BaseEnemyAI enemy in enemyWithinRange)
+    void CleanupEnemies()
+    {
+        for (int i = enemyWithinRange.Count - 1; i >= 0; i--)
         {
-            if (enemy == null)
-            continue;
-            enemy.TakeDamage(Damage);
+            BaseEnemyAI enemy = enemyWithinRange[i];
+            if (enemy == null || !enemy.gameObject.activeInHierarchy)
+                enemyWithinRange.RemoveAt(i);
         }
     }
-   
-   public void ApplyStatsToDamage ()
+
+    void StopAttackIfNeeded()
     {
-        Damage = stat.level * baseDamage;
+        CleanupEnemies();
+
+        if (enemyWithinRange.Count == 0 && attack != null)
+        {
+            StopCoroutine(attack);
+            attack = null;
+            attackEffect?.Stop();
+        }
     }
-    public void ApplyStatsToTimeRate()
+
+    protected override void DealWithEnemies()
     {
-        timeRate = baseTimeRate * stat.level;
+        CleanupEnemies();
+        if (enemyWithinRange.Count == 0) return;
+
+        GetReady?.Invoke();
+        onDealWithEnemies?.Invoke();
+
+        attackEffect?.Play();
+
+        foreach (BaseEnemyAI enemy in enemyWithinRange)
+        {
+            if (enemy == null || !enemy.gameObject.activeInHierarchy) continue;
+            enemy.TakeDamage(Damage);
+        }
     }
 }

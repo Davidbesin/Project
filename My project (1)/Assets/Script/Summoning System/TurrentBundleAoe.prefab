@@ -1886,10 +1886,9 @@ MonoBehaviour:
   maxHealth: 0
   range: 0
   timeRate: 0
-  baseTimeRate: 0
-  baseDamage: 0
-  upgradeableTime: {fileID: 0}
-  upgradeableAttack: {fileID: 0}
+  type: 0
+  damage: 0
+  attackEffect: {fileID: 5180018073747407254}
 --- !u!1 &3902665130086246202
 GameObject:
   m_ObjectHideFlags: 0
@@ -3377,6 +3376,11 @@ PrefabInstance:
 --- !u!4 &4984821923894166732 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4361801158873524, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
+  m_PrefabInstance: {fileID: 4981784011529344376}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5180018073747407254 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198656289721292014, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
   m_PrefabInstance: {fileID: 4981784011529344376}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5395806171309252146

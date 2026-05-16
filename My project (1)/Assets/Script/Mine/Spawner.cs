@@ -24,7 +24,6 @@ public class Spawner : MonoBehaviour
     [Header("Spawn Settings")]
     [SerializeField] private float spawnInterval = 180f;
 
-    // 👀 visible in inspector
     [SerializeField] private int totalWaveStrength;
 
     public int AIToSpawn => TowerManager.Instance.TotalWaveStrength;
@@ -101,26 +100,43 @@ public class Spawner : MonoBehaviour
         Debug.Log("Spawn complete. Spawned: " + spawnedCount);
     }
 
+
     public bool ActivateNextDirection()
     {
         List<GameObject> currentPool = allPools[directionIndex];
         GameObject ai = GetInactiveAI(currentPool);
 
-        // cycle index for next call
+      
+        bool success = false;
+        AiTarget target;
+        if (ai != null)
+        {
+            ai.SetActive(true);
+            target = ai.GetComponent<AiTarget>();
+            target?.GoTo();
+            success = true;
+            if (directionIndex == 0)
+            ai.transform.position = north.position;
+    
+            else if (directionIndex == 1)
+            ai.transform.position = east.position;
+
+            else if (directionIndex == 2)
+            ai.transform.position = west.position;
+
+            target?.GoTo();
+        }
+        
+       
+
+        // increment always happens
         directionIndex++;
         if (directionIndex >= allPools.Count)
             directionIndex = 0;
 
-        if (ai != null)
-        {
-            ai.SetActive(true);
-            AiTarget target = ai.GetComponent<AiTarget>();
-            if (target != null) target.GoTo();
-            return true;
-        }
-
-        return false;
+        return success;
     }
+
 
     private GameObject GetInactiveAI(List<GameObject> pool)
     {

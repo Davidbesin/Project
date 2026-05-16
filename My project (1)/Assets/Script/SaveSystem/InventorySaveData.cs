@@ -3,18 +3,15 @@ using UnityEngine;
 [System.Serializable]
 public class InventorySaveData
 {
-    public int regulator1MaxAllowedSum;
-    public int regulator1CurrentSum;
 
-    public int regulator2MaxAllowedSum;
-    public int regulator2CurrentSum;
+    public int regulator1Level;
+    public int regulator2Level;
 
-    public InventorySaveData(InventoryRegulator regulator1, InventoryRegulator regulator2)
+    public InventorySaveData( UpgradeableStatInterface upgrade1, UpgradeableStatInterface upgrade2)
     {
-        regulator1MaxAllowedSum = regulator1.MaxAllowedSum;
-        regulator1CurrentSum    = regulator1.Sum;
 
-        regulator2MaxAllowedSum = regulator2.MaxAllowedSum;
-        regulator2CurrentSum    = regulator2.Sum;
+        // Save upgrade levels
+        regulator1Level = (upgrade1 != null) ? upgrade1.level : 1;
+        regulator2Level = (upgrade2 != null) ? upgrade2.level : 1;
     }
 }

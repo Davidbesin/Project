@@ -8,8 +8,10 @@ public class AiTarget : MonoBehaviour
    //Coroutine seconds;SS
    public Transform wallCenter;
    GameObject wall;
-   NavMeshAgent agent;
+   public NavMeshAgent agent;
+   
    bool wallactive;
+   bool onTheWay;
    bool WallActive
    {
       get;
@@ -20,27 +22,32 @@ public class AiTarget : MonoBehaviour
    {
       agent = GetComponent<NavMeshAgent>();
    }
-   void Start() 
-   {
-      //StartCoroutine(LookForAgent());
- 
-      // GoTo();;
-       
-   }
-   void OnEnable() 
-   {
-      //StartCoroutine(LookForAgent());
 
-      // GoTo();;
-       
+   public enum State
+   {
+     GrandJourney,
+     ChooseWall,
+      GoMeetPlayer
    }
 
+   [SerializeField]State currentState;
 
 
    [ContextMenu("go")]
-   public void GoTo()  { goal = OnLookOutFromStart(); agent.SetDestination(goal);}
+   public void GoTo()
+   {
+      if (onTheWay) return;
+      goal = OnLookOutFromStart();
+      agent.SetDestination(goal);
+      onTheWay = true;
+   }
 
- [ContextMenu("CastRay")]
+private void Update()
+{
+    currentState = ChooseState();
+    Debug.Log(agent.destination);
+}
+   [ContextMenu("CastRay")]
    Vector3 OnLookOutFromStart()
    {
       Vector3 dir = (wallCenter.position - transform.position).normalized;
@@ -55,22 +62,57 @@ public class AiTarget : MonoBehaviour
       }
       else
       {
-         return transform.position;
-      }
-      
+         return wallCenter.position;
+      } 
    }
 
-[ContextMenu("playeo")]
-   public void GoMeetPlayer() => agent.SetDestination(Player.Instance.gameObject.transform.position);
+   [ContextMenu("playeo")]
    
-     
-   /* IEnumerator LookForAgent()
+   public void ExecuteAction()
    {
-      while(true)
+      switch (currentState)
       {
-        if (wall)         
-         yield return new WaitForSeconds(.33f);
+         case State.GrandJourney:
+         GoTo();
+         break;
+
+         case State.ChooseWall:
+         agent.SetDestination(ChooseRandomPointWall(wall));
+         break;
+
+         case State.GoMeetPlayer:
+         agent.SetDestination(Player.Instance.transform.position);
+         break;
+
+        // default:
+      } 
+   }
+     
+   State ChooseState()
+   {
+      if (wall != null ) return State.GrandJourney;
+      float distance = Vector3.Distance(transform.position, agent.destination);
+      if (!wall.activeInHierarchy) return State.GoMeetPlayer; 
+      else
+      {
+         if (distance > 0.5f) return State.ChooseWall;
+         else return State.GrandJourney;
       }
-   } */
-    
+   }
+
+   Vector3 ChooseRandomPointWall(GameObject col)
+   {
+      Collider collider = col.GetComponent<Collider>();
+      Bounds bounds = collider.bounds;
+
+      Vector3 point = new Vector3(
+         Random.Range(bounds.min.x, bounds.max.x),
+         col.transform.position.y,
+         Random.Range(bounds.min.z, bounds.max.z)
+      );
+
+      return point;
+   }
+
+   
 }

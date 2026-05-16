@@ -20,33 +20,14 @@ public class AttackDefensiveTower : BaseDefensiveTower
 
     [SerializeField] ParticleSystem attackEffect;
 
-    private void Awake()
-    {
-        attackEffect?.Stop();
-        trigger = GetComponent<SphereCollider>();
-        towerLevelComponent = GetComponent<TowerLevel>();
-
-        if (!trigger || !trigger.isTrigger)
-        {
-            Debug.LogError("Tower requires a SphereCollider set as trigger.");
-            return;
-        }
-    }
     void Start()
     {
-        attackEffect?.Stop();
-        ApplyLevelScaling();  
-
+        if (attackEffect != null)
+        {
+            attackEffect.Stop();
+        }
     }
-    public override void OnEnable()
-    {
-        attackEffect?.Stop();
-        if  (!TowerManager.Instance.MyTowers.Contains(this))
-           { if (TowerManager.Instance == null) Debug.Log("bull dg");
-           TowerManager.Instance.JoinList(this);}
 
-            Debug.Log("dhdg");
-    }
    protected override void OnTriggerEnter(Collider other)
     {
         BaseEnemyAI enemy = other.GetComponent<BaseEnemyAI>();
