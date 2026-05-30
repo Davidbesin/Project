@@ -9,7 +9,7 @@ public class UpgradeableStatInterface : MonoBehaviour, ITransact
     [SerializeField] string nameOfStats;
 
     [Tooltip("Current upgrade level.")]
-    [SerializeField] public int level = 1;
+    public int level = 1;
 
     public bool AutoTransact => false;
     public bool AllowBuy => true;

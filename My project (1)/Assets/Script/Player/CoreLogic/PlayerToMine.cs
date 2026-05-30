@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class PlayerToMine : MonoBehaviour
 {
     public int resourceGatheringTime = 1; // seconds per tick
-    public int whatToCollect;
+    int baseWhatToCollect = 1;
+    public int whatToCollect => baseWhatToCollect * GatherLevel.gatherLevel;
     [SerializeField]PlayersInventory playersInventory;
 
     private Coroutine collectingCoroutine;

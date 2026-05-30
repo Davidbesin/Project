@@ -26,6 +26,8 @@ public class InventoryRegulator : MonoBehaviour
                 sum += resource.Amount;
             }
 
+            if (sum > MaxAllowedSum) Debug.Log("Limit Reached");
+
             // Gate logic: flip boolean when sum exceeds threshold
             playerBag.canAddResources = sum < MaxAllowedSum;
          //    if(!playerBag.canAddResources) Debug.Log("BagPack Full");

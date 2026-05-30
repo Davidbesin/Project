@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,10 +6,27 @@ public class AI_DOPCenter : MonoBehaviour
 {
     public List<AiTarget> allAi = new();
 
- [ContextMenu("Spawn Mines")]
+    // Property that returns only active AiTargets
+    public List<AiTarget> ActiveAiTargets
+    {
+        get
+        {
+            List<AiTarget> activeList = new List<AiTarget>();
+            foreach (var ai in allAi)
+            {
+                if (ai != null && ai.gameObject.activeInHierarchy)
+                {
+                    activeList.Add(ai);
+                }
+            }
+            return activeList;
+        }
+    }
+
     private void Start()
     {
-        // Start the coroutine when the object is created
+        // Populate list with both active and inactive AiTargets
+        allAi = new List<AiTarget>(FindObjectsOfType<AiTarget>(true));
         StartCoroutine(RepeatEveryThirdSecond());
     }
 
@@ -18,18 +34,14 @@ public class AI_DOPCenter : MonoBehaviour
     {
         while (true)
         {
-            // Your repeated logic goes here
             yield return new WaitForSeconds(0.33f);
-            Debug.Log("Coroutine tick at " + Time.time);
+           // Debug.Log("Coroutine tick at " + Time.time);
 
-            // Example: iterate through all AI targets
-            foreach (var ai in allAi)
+            // Loop only through active ones
+            foreach (var ai in ActiveAiTargets)
             {
                 ai.ExecuteAction();
             }
-
-            // Wait 0.33 seconds before repeating
-            
         }
     }
 }

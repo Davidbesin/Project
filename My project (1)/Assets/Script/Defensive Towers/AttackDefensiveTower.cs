@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,17 +19,17 @@ public class AttackDefensiveTower : BaseDefensiveTower
 
     public BaseEnemyAI designatedTarget;
 
-    [SerializeField] ParticleSystem attackEffect;
+    [SerializeField] GameObject attackEffect;
 
     void Start()
     {
         if (attackEffect != null)
         {
-            attackEffect.Stop();
+            attackEffect.SetActive(false);
         }
     }
 
-   protected override void OnTriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
         BaseEnemyAI enemy = other.GetComponent<BaseEnemyAI>();
 
@@ -70,7 +71,7 @@ public class AttackDefensiveTower : BaseDefensiveTower
 
                 if (attackEffect != null)
                 {
-                    attackEffect.Stop();
+                    attackEffect.SetActive(false);
                 }
 
                 yield break;
@@ -107,7 +108,7 @@ public class AttackDefensiveTower : BaseDefensiveTower
 
             if (attackEffect != null)
             {
-                attackEffect.Stop();
+                attackEffect.SetActive(false);
             }
         }
     }
@@ -133,7 +134,8 @@ public class AttackDefensiveTower : BaseDefensiveTower
 
         if (attackEffect != null)
         {
-            attackEffect.Play();
+            attackEffect.SetActive(false);
+            attackEffect.SetActive(true);
         }
 
         target.TakeDamage(Damage);

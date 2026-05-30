@@ -34,7 +34,7 @@ public class UiTriggerBinder : MonoBehaviour
         if (uiClickTrigger != null && statInterface != null)
         {
             uiClickTrigger.OnUpgradeAction.AddListener(statInterface.UpgradeLevel);
-            Debug.Log("Subscribed UpgradeLevel to UI click trigger.");
+           // Debug.Log("Subscribed UpgradeLevel to UI click trigger.");
         }
     }
 

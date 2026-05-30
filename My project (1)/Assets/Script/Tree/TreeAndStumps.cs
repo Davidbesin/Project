@@ -10,6 +10,8 @@ public class TreeAndStumps : MonoBehaviour
     [SerializeField]BaseResource wood;
 
     [SerializeField] int woodToGet;
+    CapsuleCollider collider;
+
 
     public enum Stage
     {
@@ -33,6 +35,7 @@ public class TreeAndStumps : MonoBehaviour
     void Start()
     {
         UpdateVisuals();
+        collider =GetComponent<CapsuleCollider>();
     }
 
     void UpdateVisuals()

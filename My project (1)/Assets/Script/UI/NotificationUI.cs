@@ -33,6 +33,9 @@ public class NotificationUI : MonoBehaviour
 
         while (queue.Count > 0)
         {
+            // Change speed based on queue amount
+            displayTime = queue.Count > 10 ? 0.1f : 0.5f;
+
             string msg = queue.Dequeue();
 
             text.text = msg;
@@ -46,10 +49,5 @@ public class NotificationUI : MonoBehaviour
         isShowing = false;
     }
 
-    bool draining;
-    public void ResourceDrainChange()
-    {
-        if (!draining){draining = true; displayTime = 0.1f;}
-        else {draining = false; displayTime = 0.75f;}
-    }
+   
 }
