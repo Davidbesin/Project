@@ -9,24 +9,29 @@ public class AiTarget : MonoBehaviour
     [SerializeField] private Transform wallCenter;
 
     public Transform targetPoint;
-    private NavMeshAgent agent;
-
-    
+    public NavMeshAgent agent;
+    public AnimationController anim;
 
     // =====================================================
     // STATE DATA
     // =====================================================
     private GameObject wall;
 
+    private Wall walll;
+    private BaseEnemyAI enemy;
+
+    public float baseSpeed;
+
     public enum State
     {
         nul,
         MeetWall,
-        MeetPlayer
+        MeetPlayer,
+        Dead
     }
 
     State prevState = State.nul;
-    State currentState;
+    public State currentState;
 
     // =====================================================
     // LIFECYCLE
@@ -34,11 +39,20 @@ public class AiTarget : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<AnimationController>();
+        enemy = GetComponent<BaseEnemyAI>();
     }
 
-    private void OnDisable()
+    private void OnEnable()
     {
-        
+        wall = null;
+        walll = null;
+
+        prevState = State.nul;
+        currentState = State.nul;
+
+        agent.ResetPath();
+        agent.isStopped = false;
     }
 
     // =====================================================
@@ -47,6 +61,7 @@ public class AiTarget : MonoBehaviour
     void UpdateWall()
     {
         if (wall != null) return;
+
         Vector3 dir = (wallCenter.position - transform.position).normalized;
         Ray ray = new Ray(transform.position, dir);
 
@@ -55,6 +70,7 @@ public class AiTarget : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, 1000f, wallLayerMask))
         {
             wall = hit.collider.gameObject;
+            walll = wall.GetComponent<Wall>();
         }
         else
         {
@@ -68,31 +84,45 @@ public class AiTarget : MonoBehaviour
     public void ExecuteAction()
     {
         UpdateWall();
+
         currentState = CurrentState();
-        if (prevState == currentState) return;
+
+        if (prevState == currentState)
+            return;
+
         prevState = currentState;
 
         switch (currentState)
         {
             case State.MeetWall:
+                agent.isStopped = false;
+
                 if (targetPoint != null)
                     agent.SetDestination(targetPoint.position);
                 break;
 
             case State.MeetPlayer:
+                agent.isStopped = false;
                 agent.SetDestination(Player.Instance.transform.position);
+                break;
+
+            case State.Dead:
+                agent.ResetPath();
+                agent.isStopped = true;
                 break;
         }
     }
 
     // =====================================================
-    // STATE LOGIC (STABLE)
+    // STATE LOGIC
     // =====================================================
     State CurrentState()
     {
-        if (wall != null && wall.activeInHierarchy)
-            return State.MeetWall;
+        if (enemy != null && enemy.Health <= 0)
+            return State.Dead;
 
+        if (walll != null && walll.Health > 0)
+            return State.MeetWall;
 
         return State.MeetPlayer;
     }

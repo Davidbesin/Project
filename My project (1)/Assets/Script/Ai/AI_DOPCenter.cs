@@ -6,12 +6,15 @@ public class AI_DOPCenter : MonoBehaviour
 {
     public List<AiTarget> allAi = new();
 
-    // Property that returns only active AiTargets
+    [SerializeField] private float stopDistance = 2f;
+    private float stopDistanceSqr;
+
     public List<AiTarget> ActiveAiTargets
     {
         get
         {
-            List<AiTarget> activeList = new List<AiTarget>();
+            List<AiTarget> activeList = new();
+
             foreach (var ai in allAi)
             {
                 if (ai != null && ai.gameObject.activeInHierarchy)
@@ -19,14 +22,17 @@ public class AI_DOPCenter : MonoBehaviour
                     activeList.Add(ai);
                 }
             }
+
             return activeList;
         }
     }
 
     private void Start()
     {
-        // Populate list with both active and inactive AiTargets
+        stopDistanceSqr = stopDistance * stopDistance;
+
         allAi = new List<AiTarget>(FindObjectsOfType<AiTarget>(true));
+
         StartCoroutine(RepeatEveryThirdSecond());
     }
 
@@ -35,12 +41,35 @@ public class AI_DOPCenter : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.33f);
-           // Debug.Log("Coroutine tick at " + Time.time);
 
-            // Loop only through active ones
             foreach (var ai in ActiveAiTargets)
             {
+                if (ai == null || ai.agent == null)
+                    continue;
+
                 ai.ExecuteAction();
+
+                if (ai.anim != null)
+                {
+                    ai.anim.ExecuteAction();
+                }
+                
+                if (!ai.agent.hasPath)
+                    continue;
+
+                float distanceSqr =
+                    (ai.transform.position - ai.agent.destination).sqrMagnitude;
+
+                if (distanceSqr < stopDistanceSqr)
+                {
+                    ai.agent.speed = 0f;
+                }
+                else
+                {
+                    ai.agent.speed = ai.baseSpeed;
+                }
+
+               
             }
         }
     }

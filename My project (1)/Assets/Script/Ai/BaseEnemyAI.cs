@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 
-public class BaseEnemyAI : MonoBehaviour, IEnemy, ICombatant
+public class BaseEnemyAI : MonoBehaviour, ICombatant
 {
     public float moveSpeed = 4f;
     [SerializeField] private int health;
@@ -43,11 +43,6 @@ public class BaseEnemyAI : MonoBehaviour, IEnemy, ICombatant
     {
         
     }
-    // DEFAULT IENEMY
-    public void MyDefault()
-    {
-        moveSpeed = 10;
-    }
 
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -60,10 +55,6 @@ public class BaseEnemyAI : MonoBehaviour, IEnemy, ICombatant
         if (attack == null) attack= StartCoroutine(AttackEnemy(timeRate));
     }
 
-    protected virtual void OnTriggerExit(Collider other) 
-    {
-        MyDefault();
-    }
 
     public void TakeDamage(int damage) => Health -= damage;
     

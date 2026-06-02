@@ -2,31 +2,32 @@ using UnityEngine;
 
 public class Wall : MonoBehaviour, IHealth
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     MeshRenderer mesh;
     BoxCollider collider;
-    
-    
+
+    [SerializeField] private int health = 100;
+
+    public string HealthText => $"HP: {Health}";
+
     public bool PlayerSide => true;
+
     bool wallActive = true;
     public bool WallActive
     {
         get => wallActive;
-        set 
+        set
         {
             wallActive = value;
-            if (value)
-            {
-                 mesh.enabled = true;
-               collider.enabled = true;
-            }
-            else
-            {
-               mesh.enabled = false;
-               collider.enabled = false;
 
-            }
+            mesh.enabled = value;
+            collider.enabled = value;
         }
+    }
+
+    public int Health
+    {
+        get => health;
+        set => health = value;
     }
 
     private void Awake()
@@ -34,33 +35,15 @@ public class Wall : MonoBehaviour, IHealth
         mesh = GetComponent<MeshRenderer>();
         collider = GetComponent<BoxCollider>();
     }
-    
-    [SerializeField] int health;
-    public int Health
-    {
-        get => health;
-        set => health = value;
-    }
-
 
     public void TakeDamage(int damage)
     {
-        
         Health -= damage;
+
         if (Health <= 0)
         {
-            wallActive = false;
+            Health = 0;
+            WallActive = false;
         }
     }
-
-    /* IEnumerator CheckWallStatus()
-    {
-        while(!wallActive)
-        {
-            
-            yield return new WaitForSeconds(.33f);
-        }
-   } */
-
-
 }

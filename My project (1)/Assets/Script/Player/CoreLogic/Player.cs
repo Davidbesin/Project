@@ -10,7 +10,7 @@ public class Player : MonoBehaviour, ICombatant
     public static Player Instance {get; private set;}
     
     public bool PlayerSide => true;
-    private int health;
+    [SerializeField]private int health;
     public float playerMoveSpeed; 
     private int MaxHealth;
     int damage;
@@ -33,43 +33,18 @@ public class Player : MonoBehaviour, ICombatant
     {
         Instance = this;
     }
-    //Know the planet the player is on and collects data
-    private Planet residingPlanet; 
-    public Planet ResidingPlanet
-    {
-        get { return residingPlanet;}
-        set { residingPlanet = value; }
-    }
-    
- //   public GridTile grid;
-  /*  public void CollectGrid(Grid currentGrid)
-    {
-        currentGrid = grid   
-    }  */
-    
-    public void CollectPlanet (Planet data)
-    {
-        ResidingPlanet = data; 
-    }
-
+ 
+   
     public void TakeDamage(int damage)
     {
-        
-    }
-    public void SetMaxHealth(int playerMaxHealth)
-    {
-        MaxHealth = playerMaxHealth;
+        health -= damage;
+
+        if (health <= 0)
+        {
+            Debug.Log("Player died");
+        }
     }
 
-    public void SetSpeed(float speed)
-    {
-        playerMoveSpeed = speed;
-    }
-
-    public void SetGatherSpeed(int resourceGatherSpeed)
-    {
-        GatherSpeed = resourceGatherSpeed;
-    }
 
     [SerializeField] bool stillSummoning;
      public int GiveDamage(bool side)

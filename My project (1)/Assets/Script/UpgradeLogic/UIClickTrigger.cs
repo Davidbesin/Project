@@ -10,7 +10,9 @@ public class UiClickTrigger : MonoBehaviour
     // Called by the UI button
     public void UpgradeButtonClick()
     {
-        OnUpgradeAction?.Invoke();
+        
+            Debug.Log("Upgrade button clicked");
+            OnUpgradeAction?.Invoke();
     }
 }
 

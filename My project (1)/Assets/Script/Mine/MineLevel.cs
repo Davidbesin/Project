@@ -21,7 +21,7 @@ public class MineLevel : MonoBehaviour, ILevel
     {
        // personalMine.UpgradeHealth(level);
         personalMine.UpgradeRegenRate(level);
-        personalMine.UpgradeMineCapacity(statlevel.level);
+        personalMine.UpgradeMineCapacity(level);
        // personalMine.UpgradeRegenHealth(statlevel.level);
     }
 

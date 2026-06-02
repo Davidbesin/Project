@@ -53,7 +53,6 @@
     <Compile Include="Assets\Script\SaveSystem\LoadManager.cs" />
     <Compile Include="Assets\Script\SaveSystem\MineSaveData.cs" />
     <Compile Include="Assets\Script\Mine\MineLevel.cs" />
-    <Compile Include="Assets\Script\Ai\IEnemy.cs" />
     <Compile Include="Assets\Script\Defensive Towers\LookAtEnemy.cs" />
     <Compile Include="Assets\Script\UI\DropDownClick.cs" />
     <Compile Include="Assets\Script\Core Interfaces\ICombatant.cs" />
@@ -85,6 +84,7 @@
     <Compile Include="Assets\Script\Core Interfaces\IWaveContributor.cs" />
     <Compile Include="Assets\Script\Tree\TreeAndStumps.cs" />
     <Compile Include="Assets\UnityTechnologies\ParticlePack\EffectExamples\Misc Effects\Scripts\SpawnEffect.cs" />
+    <Compile Include="Assets\Script\WallSystem\WallHealthDisplay.cs" />
     <Compile Include="Assets\Script\Resources\StoneResource.cs" />
     <Compile Include="Assets\Script\UI\DebugToUI.cs" />
     <Compile Include="Assets\Script\Defensive Towers\MoveSlowlyDefensiveTower.cs" />
@@ -135,7 +135,6 @@
     <Compile Include="Assets\Script\UI\WorldTextTowerUpdater.cs" />
     <Compile Include="Assets\Script\UI\TextMeshProUpgradeUpdate.cs" />
     <Compile Include="Assets\Script\Defensive Towers\ForestSave.cs" />
-    <Compile Include="Assets\Script\Planet.cs" />
     <Compile Include="Assets\Script\Summoning System\PlatformRotate.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
     <Compile Include="Assets\Script\UI\TextMeshProUpdater.cs" />
@@ -149,6 +148,7 @@
     <Compile Include="Assets\Script\UpgradeLogic\UpgradeableStatInterface.cs" />
     <Compile Include="Assets\Script\WallSystem\Tile.cs" />
     <Compile Include="Assets\Script\Defensive Towers\AreaOfEffectDefensiveTower.cs" />
+    <Compile Include="Assets\Script\Ai\AnimationController.cs" />
     <Compile Include="Assets\Script\Summoning System\BundlePackage.cs" />
     <Compile Include="Assets\Script\SaveSystem\MineSave.cs" />
     <Compile Include="Assets\Script\Core Interfaces\ILevel.cs" />

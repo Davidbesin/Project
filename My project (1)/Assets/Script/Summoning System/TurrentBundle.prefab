@@ -1659,7 +1659,7 @@ MonoBehaviour:
   type: 1
   damage: 15
   designatedTarget: {fileID: 0}
-  attackEffect: {fileID: 6803386054419478813}
+  attackEffect: {fileID: 6678160920474874163}
 --- !u!135 &9049714269725908027
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3485,8 +3485,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4317874184272834, guid: bccc7a794e75b2a44a4b0dac69160b7b, type: 3}
   m_PrefabInstance: {fileID: 6677313744530678225}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &6803386054419478813 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 198421077076039884, guid: bccc7a794e75b2a44a4b0dac69160b7b, type: 3}
+--- !u!1 &6678160920474874163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1973075987484898, guid: bccc7a794e75b2a44a4b0dac69160b7b, type: 3}
   m_PrefabInstance: {fileID: 6677313744530678225}
   m_PrefabAsset: {fileID: 0}
