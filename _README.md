@@ -38,4 +38,4 @@ On hold. Last commit: 2026-06-02 ("Hiatus"). No completed game loop, no build pi
 
 ## License
 
-Not specified.
+All Rights Reserved
